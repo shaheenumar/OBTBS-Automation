@@ -2,6 +2,15 @@ package masterBeans;
 
 public class state {
 	String stateName,stateCode;
+	
+	
+	
+	public state(String stateCode,String stateName){
+		this.stateName = stateName;
+		this.stateCode =stateCode;
+		
+	}
+	
 
 	public String getStateName() {
 		return stateName;
