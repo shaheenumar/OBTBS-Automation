@@ -1,20 +1,12 @@
-import java.io.File;
-import java.io.IOException;
-import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
+package MainPackage;
 
-import org.apache.commons.io.FileUtils;
+import java.io.IOException;
+import java.util.List;
+
 import org.openqa.selenium.By;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import ExcelOps.ExcelRead;
@@ -27,6 +19,8 @@ public class Login {
 		
 		//Declarations and initializations
 		WebDriver foxDriver = new FirefoxDriver();
+		//WebDriver foxDriver = new ChromeDriver();
+
 		String baseUrl = "http://otp-admin-qa.qburst.build/";
 		
 		String charSetUpper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -43,6 +37,7 @@ public class Login {
 		
 	    //Navigating to url
 		foxDriver.get(baseUrl);
+		
 		
 		
 		//Login - Username
@@ -88,35 +83,11 @@ public class Login {
 		stateMasterOps stateOb=new stateMasterOps();
 		stateOb.addState(foxDriver,sts,baseUrl);
 		
-				
+		System.out.println("Closing browser");
 		foxDriver.quit();
 		
 	}
 	
-	public static String createRandomCode(int codeLength, String id) {   
-	    List<Character> temp = id.chars()
-	            .mapToObj(i -> (char)i)
-	            .collect(Collectors.toList());
-	    Collections.shuffle(temp, new SecureRandom());
-	    return temp.stream()
-	            .map(Object::toString)
-	            .limit(codeLength)
-	            .collect(Collectors.joining());
-	}
-	
-	public void takeScreenshot(WebDriver driver){
-		// Take screenshot and store as a file format
-		File src= ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-		try {
-		 // now copy the  screenshot to desired location using copyFile //method
-		FileUtils.copyFile(src, new File("/home/ults/Documents/error.png"));
-		}
-		catch (IOException e)
-		 {
-		  System.out.println(e.getMessage());
-		 
-		 }
-	}
-	
 
 }
+
