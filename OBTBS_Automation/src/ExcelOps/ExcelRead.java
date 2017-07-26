@@ -19,14 +19,14 @@ public class ExcelRead {
 	
 	private List<state> stateList=new ArrayList<state>(); 
 	
-	public List<state> readExcel(String filePath,String fileName,String sheetName) throws IOException{
+	public List<state> readStatesFromExcel(String fileName,String sheetName) throws IOException{
 		 
 		
 		String stateCode="",stateName="";
 		state e=null;
 		
 		//Create an object of File class to open xlsx file
-		File file =    new File(fileName);
+		File file = new File(fileName);
 		
 		
 		//Create an object of FileInputStream class to read excel file
@@ -65,56 +65,32 @@ public class ExcelRead {
 			
 			Row row = Sheet.getRow(i);
 			
-			//Read State code
+			//Read State-code
 			if(row.getCell(0).getCellTypeEnum()==CellType.STRING){
-				System.out.print("state code:"+row.getCell(0).getStringCellValue()+"|| ");
 				stateCode = row.getCell(0).getStringCellValue();
-			
-					
 			}else if(row.getCell(0).getCellTypeEnum()==CellType.NUMERIC){
-				System.out.print("state code:"+Double.toString(row.getCell(0).getNumericCellValue())+"|| ");
 				stateCode = Double.toString(row.getCell(0).getNumericCellValue());
-				
 			}
 			
 
-			//Read State name
+			//Read State-name
 			if(row.getCell(1).getCellTypeEnum()==CellType.STRING){
-				System.out.print("state name:"+row.getCell(1).getStringCellValue()+"|| ");
 				stateName = row.getCell(1).getStringCellValue();
-					
 			}else if(row.getCell(1).getCellTypeEnum()==CellType.NUMERIC){
-				System.out.print("state name:"+Double.toString(row.getCell(1).getNumericCellValue())+"|| ");
 				stateName = Double.toString(row.getCell(1).getNumericCellValue());
-				
 			}
 			
-//		    //Create a loop to print cell values in a row
-//			for (int j = 0; j < row.getLastCellNum(); j++) {
-//
-//				//Print Excel data in console
-//				
-//				if(row.getCell(j).getCellTypeEnum()==CellType.STRING){
-//					System.out.print(row.getCell(j).getStringCellValue()+"|| ");
-//						
-//				}else if(row.getCell(j).getCellTypeEnum()==CellType.NUMERIC){
-//					System.out.print(Double.toString(row.getCell(j).getNumericCellValue())+"|| ");
-//					
-//				}
-//				
-//
-//		    }
+
 			System.out.println("state code:"+stateCode+" state name "+stateName);
 			e=new state(stateCode,stateName);
 			stateList.add(e);		
-			System.out.println();
 
-		  }
-		for(state s:stateList) {
-            System.out.println(s.getStateName());
-            System.out.println(s.getStateCode());
-
-        }
+		}
+//		for(state s:stateList) {
+//            System.out.println(s.getStateName());
+//            System.out.println(s.getStateCode());
+//
+//        }
 		return stateList;
 	}
 

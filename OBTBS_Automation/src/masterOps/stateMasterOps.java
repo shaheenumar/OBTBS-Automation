@@ -40,7 +40,7 @@ public class stateMasterOps {
     			btnAddState.click();
     		}else{
     			
-    			Ops.refresh(driver);
+    			Ops.clickRefresh(driver);
     			
     		}
     			
