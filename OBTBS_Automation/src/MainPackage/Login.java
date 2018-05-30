@@ -9,29 +9,41 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import ExcelOps.ExcelRead;
+import masterBeans.place;
 import masterBeans.state;
-import masterOps.stateMasterOps;
+import masterOps.PlaceMasterOps;
+import masterOps.ServiceMasterOps;
+import masterOps.StateMasterOps;
 import UtilityOps.UtitlityOps;
 
 
 public class Login {
 	public static void  main(String[] args) throws InterruptedException, IOException{
 		
-		//Declarations and initializations
-		WebDriver driver = new FirefoxDriver();
+		//Initialization of Web-driver
+	      WebDriver driver = new FirefoxDriver();
+	    //WebDriver driver= new HtmlUnitDriver();
 		//WebDriver driver = new ChromeDriver();
-
-		String baseUrl = "http://otp-admin-qa.qburst.build/";
+		
+	    //Defining implicit wait of 10 seconds
+	      driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	      
+	      WebDriverWait wait = new WebDriverWait(driver, 3);
+	 
+	      
+	    //Base URL
+		String baseUrl = "http://qa.otp-admin.qburst.build/";
 		
 
 		WebElement tbUsername,tbPassword;
-		WebDriverWait wait = new WebDriverWait(driver, 10);
 		
-		List<WebElement> list;
+		
 		
 				
 	    //Navigating to url
@@ -41,49 +53,65 @@ public class Login {
 		
 		//Login - Username
 		tbUsername  = driver.findElement(By.name("username"));
-		tbUsername.sendKeys("superadmin");
+		tbUsername.sendKeys("shaheen");
 		
 		//Login - Password
 		tbPassword  = driver.findElement(By.name("password"));
-		tbPassword.sendKeys("ults@123");
+		tbPassword.sendKeys("12345678");
 		tbPassword.submit();
+				
+	
+		//Wait until redirected to dashboard
+		WebElement dashboardHeading = wait.
+				until(ExpectedConditions.
+				 presenceOfElementLocated(By.
+				  cssSelector("#root-app > main > div > section > main > header > div.app-shell__header-container > h1")));
+		
+		wait.
+		 until(ExpectedConditions.
+		  invisibilityOfElementLocated(By.
+		   xpath("//*[@id=\"root-app\"]/main/div/section/main/section/div[1]/div[1]/div/div/svg")));
+		
+		System.out.println("Successfully logged In");
 		
 		
-//		//Wait until page load
-//		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"root-app\"]/div/div/section/main/section/div/div/div/section[2]/form/button")));
-//		//driver.manage().timeouts().pageLoadTimeout(100, TimeUnit.SECONDS);
-//		//Thread.sleep(5000);
-//		
-//		
-//		//Choose corporation
-//		list = driver.findElements(By.tagName("button"));
-//		System.out.println(list.size());
-//		list.get(2).click();
-//		
-//		String xpath = "/html/body/div[3]/div/div/div/div[2]/span/div/div/div";
-//		driver.findElement(By.xpath(xpath)).click();
-//
-//		list.get(3).submit();		
-//		
+		//Choosing among multiple corporations
+		//otherOps.chooseCorpFromTop(driver,"KSRTC");
 		
 		
+				
 		
 		//Create an object of ReadExcel class
-		ExcelRead objExcelFile = new ExcelRead();
-		//Call read file method of the class to read data
-		List<state> sts = objExcelFile.readStatesFromExcel("test.xlsx","state");
+		//ExcelRead objExcelFile = new ExcelRead();
+	    
+		//Read State data from excel
+    	//List<state> sts = objExcelFile.readStatesFromExcel("test.xlsx","state");
+    	
+    	//Read Place data from excel
+    	//List<place> pls = objExcelFile.readPlacesFromExcel("test.xlsx","Place");
+    	
+		//Thread.sleep(2000);
 		
 		
+		//AddPlace
+		//PlaceMasterOps placeOb=new PlaceMasterOps();
+		//placeOb.addPlace(driver, pls, baseUrl);
 		
-		//Add State
-		stateMasterOps stateOb=new stateMasterOps();
-		stateOb.addState(driver,sts,baseUrl);
-		UtilityOps.UtitlityOps.takeScreenshot(driver, "sreenshot");
+    	//Add State
+		//StateMasterOps stateOb=new StateMasterOps();
+		//stateOb.addState(driver,sts,baseUrl);
+		
+		//Add Service
+		ServiceMasterOps serviceOb=new ServiceMasterOps(); 
+		serviceOb.addService(driver,"services",baseUrl);
+		
+		//Take screenshot
+		UtilityOps.UtitlityOps.takeScreenshot(driver, "Before_Closing_Browser");
+
+		
 		System.out.println("Closing browser...");
 		driver.quit();
 		
 	}
-	
-
 }
 

@@ -13,29 +13,29 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import masterBeans.state;
 import MainPackage.*;
 
-public class stateMasterOps {
+public class StateMasterOps {
 	
-	String masterUrl ;
+	
 	otherOps Ops = new otherOps();
 	
 	public void addState(WebDriver driver,List<state> sts ,String url) throws InterruptedException{
-		
-		masterUrl =url + "state-master";
+	
 		
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		//Add State with random values
-		driver.navigate().to(masterUrl);
-		String cssSelector = "#root-app > div > div > section > main > header > div.app-shell__actions > button";
+		driver.navigate().to(url+"state-master");
+		System.out.println("Add State");
 		
-		Thread.sleep(2000);
+		
+		Thread.sleep(3000);
 		for(state st:sts) {
 			
     		//Checking for duplication message
-    		Boolean isPresent = driver.findElements(By.cssSelector(".panel > div:nth-child(3) > div:nth-child(1) > div:nth-child(1) > button:nth-child(2)")).size() > 0 ;
-    		
+    		Boolean isPresent = driver.findElements(By.cssSelector(".panel > div:nth-child(3) > button:nth-child(2)")).size() > 0 ;
+    		System.out.println(isPresent);
     		//handling if the entry is duplication
     		if(isPresent == false){
-    			WebElement btnAddState = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(cssSelector)));
+    			WebElement btnAddState = driver.findElement(By.cssSelector(".app-shell__actions > button:nth-child(2)"));
     			System.out.println(btnAddState.getText());
     			btnAddState.click();
     		}else{
@@ -55,7 +55,7 @@ public class stateMasterOps {
     		stateCode.sendKeys(st.getStateCode());
     		WebElement stateName = driver.findElement(By.name("name"));
     		stateName.sendKeys(st.getStateName());
-    		driver.findElement(By.cssSelector("#root-app > div > div > section > main > section > section > section.panel__content > form > span.main-wrapper__btn > button:nth-child(2)")).click();
+    		driver.findElement(By.cssSelector(".panel > div:nth-child(3) > button:nth-child(2)")).click();
     		Thread.sleep(2000);
 
 		
